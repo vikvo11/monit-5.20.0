@@ -1,0 +1,84 @@
+###############################################################################
+## Monit control file
+###############################################################################
+##
+## Comments begin with a '#' and extend through the end of the line. Keywords
+## are case insensitive. All path's MUST BE FULLY QUALIFIED, starting with '/'.
+##
+###############################################################################
+## Global section
+###############################################################################
+
+# check services at 30 seconds intervals
+set daemon  30
+set logfile /export/home/app/monit/monit.log
+
+# HTTPS access
+#set httpd port 2812
+     #ssl enable
+     #pemfile /export/home/keys/key.pem
+     #clientpemfile /export/home/keys/monit_clients.pem
+     #ALLOWSELFCERTIFICATION
+
+###############################################################################
+## Services
+###############################################################################
+# check +++ solr +++
+# test with https://<hostname>:8985/solr/#/
+#check process solr with pidfile /export/home/app/solr/bin/solr-8985.pid
+#  start program = "/bin/bash /export/home/scripts/solr_start.sh" with timeout 60 seconds
+#  stop program = "/bin/bash /export/home/scripts/solr_stop.sh"
+
+# check +++ netprobe geneos +++
+# test with ps -eaf | grep " netprobe "
+#check process netprobe_geneos with matching " netprobe "
+#  start program = "/bin/bash /export/home/app/geneos/NPCtrl start netprobe" with timeout 60 seconds
+#  stop program = "/bin/bash /export/home/app/geneos/NPCtrl stop netprobe"
+
+# check +++ IDOL license server +++
+# test with http://<hostname>:40310/action=getstatus
+check process AutonomyLicenseServer pidfile /export/home/app/Autonomy/IDOLServer/active/LicenseServer/Autonomylicenseserver.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh license start"
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh license stop"
+
+# check +++ IDOL Oracle Connector +++
+# test with http://<hostname>:40310/action=getstatus
+check process AutonomyOracleConnector pidfile /export/home/app/Autonomy/OracleConnectorCFS/OracleConnectorCFS.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh con start" with timeout 15 seconds
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh con stop"
+
+# check +++ IDOL CFS +++
+# test with http://<hostname>:5510/action=getstatus
+check process AutonomyCFS pidfile /export/home/app/Autonomy/ConnectorFramework/ConnectorFramework.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh cfs start" with timeout 15 seconds
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh cfs stop"
+
+# check +++ IDOL DIH +++
+# test with http://<hostname>:9403/action=getstatus
+check process AutonomyDIH pidfile /export/home/app/Autonomy/IDOLServer/active/IDOL/dih/dih.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh dih start" with timeout 20 seconds
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh dih stop"
+
+# check +++ IDOL DAH +++
+# test with http://<hostname>:9000/action=getstatus
+check process AutonomyDAH pidfile /export/home/app/Autonomy/IDOLServer/active/IDOL/dah/dah.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh dah start" with timeout 20 seconds
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh dah stop"
+
+# check +++ IDOL ContentEngine 9140 +++
+# test with http://<hostname>:9140/action=getstatus
+check process AutonomyIDOLContentEngine9140 pidfile /export/home/app/Autonomy/IDOLServer/active/IDOL/content9140/content9140.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh content9140 start"
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh content9140 stop"
+
+# check +++ IDOL ContentEngine 9150 +++
+# test with http://<hostname>:9150/action=getstatus
+check process AutonomyIDOLContentEngine9150 pidfile /export/home/app/Autonomy/IDOLServer/active/IDOL/content9150/content9150.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh content9150 start"
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh content9150 stop"
+
+# check +++ IDOL ContentEngine 9160 +++
+# test with http://<hostname>:9160/action=getstatus
+check process AutonomyIDOLContentEngine9160 pidfile /export/home/app/Autonomy/IDOLServer/active/IDOL/content9160/content9160.pid
+  start program = "/bin/bash /export/home/scripts/idolservice.sh content9160 start"
+  stop program = "/bin/bash /export/home/scripts/idolservice.sh content9160 stop"
